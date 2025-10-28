@@ -1,0 +1,44 @@
+<Window x:Class="ModSyncTool.Views.LocalFilesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:models="clr-namespace:ModSyncTool.Models"
+        xmlns:converters="clr-namespace:ModSyncTool.Converters"
+        Title="管理本地文件"
+  Background="{DynamicResource WindowBackgroundBrush}"
+        Height="500"
+        Width="600"
+        WindowStartupLocation="CenterOwner">
+  <Window.Resources>
+    <converters:LocalFileStatusBrushConverter x:Key="StatusBrushConverter" />
+    <converters:LocalFileStatusToBoolConverter x:Key="StatusToBoolConverter" />
+    <HierarchicalDataTemplate DataType="{x:Type models:LocalFileNode}" ItemsSource="{Binding Children}">
+      <StackPanel Orientation="Horizontal">
+        <TextBlock Text="{Binding Name}"
+                   Margin="4,0"
+                   Foreground="{Binding Status, Converter={StaticResource StatusBrushConverter}}" />
+      </StackPanel>
+      <HierarchicalDataTemplate.ItemContainerStyle>
+        <Style TargetType="TreeViewItem">
+          <Setter Property="IsExpanded" Value="True" />
+          <Setter Property="ContextMenu">
+            <Setter.Value>
+              <ContextMenu>
+                <MenuItem Header="添加到忽略列表"
+                          CommandParameter="{Binding}"
+                          IsEnabled="{Binding Status, Converter={StaticResource StatusToBoolConverter}}"
+                          Click="OnAddIgnoreClick" />
+              </ContextMenu>
+            </Setter.Value>
+          </Setter>
+        </Style>
+      </HierarchicalDataTemplate.ItemContainerStyle>
+    </HierarchicalDataTemplate>
+  </Window.Resources>
+  <DockPanel Margin="12">
+    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,8">
+      <Button Content="刷新" Width="110" Style="{StaticResource PrimaryButton}" Command="{Binding RefreshCommand}" />
+      <TextBlock Text="{Binding StatusMessage}" Margin="12,0,0,0" VerticalAlignment="Center" />
+    </StackPanel>
+    <TreeView ItemsSource="{Binding Roots}" />
+  </DockPanel>
+</Window>

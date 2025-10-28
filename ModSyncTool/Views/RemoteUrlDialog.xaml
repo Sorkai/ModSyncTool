@@ -1,0 +1,26 @@
+<Window x:Class="ModSyncTool.Views.RemoteUrlDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="输入远程配置链接"
+  Background="{DynamicResource WindowBackgroundBrush}"
+        Height="180"
+        Width="480"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        WindowStyle="ToolWindow">
+  <Grid Margin="16">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <TextBlock Text="请输入远程配置链接 (online_manifest.json 的地址)：" />
+    <TextBox Grid.Row="1"
+         Margin="0,8,0,0"
+         Text="{Binding Url, UpdateSourceTrigger=PropertyChanged}" />
+    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+      <Button Content="确定" Width="100" Margin="0,0,8,0" Click="OnOkClick" Style="{StaticResource PrimaryButton}" />
+      <Button Content="取消" Width="100" Click="OnCancelClick" Style="{StaticResource SecondaryButton}" />
+    </StackPanel>
+  </Grid>
+</Window>

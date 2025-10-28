@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <RootNamespace>ModSyncTool</RootNamespace>
+    <AssemblyName>ModSyncTool</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Serilog" Version="4.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+    <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
+  </ItemGroup>
+
+  <!-- 确保 VS Code 等环境下的设计时生成能识别 XAML 并产出 InitializeComponent -->
+  <ItemGroup>
+    <Page Update="Views\**\*.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Themes\**\*.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+  <PublishSingleFile>true</PublishSingleFile>
+  <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+  <!-- 若默认希望内置运行时，设为 true；否则设为 false -->
+  <SelfContained>true</SelfContained>
+  <!-- 可选：提升启动速度（会增大体积） -->
+  <!-- <PublishReadyToRun>true</PublishReadyToRun> -->
+  <!-- WPF 项目不建议开启裁剪 -->
+  <!-- <PublishTrimmed>false</PublishTrimmed> -->
+</PropertyGroup>
+</Project>

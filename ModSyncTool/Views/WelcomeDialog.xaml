@@ -1,0 +1,20 @@
+<Window x:Class="ModSyncTool.Views.WelcomeDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="欢迎"
+  Background="{DynamicResource WindowBackgroundBrush}"
+        Width="420"
+  SizeToContent="Height"
+  MinHeight="260"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        WindowStyle="ToolWindow">
+  <StackPanel Margin="16">
+    <TextBlock Text="欢迎使用 Mod 同步器" Style="{StaticResource TitleText}" />
+    <TextBlock Text="请选择开始方式：" Margin="0,8,0,12" />
+    <Button Content="输入链接开始同步" Height="40" Margin="0,4" Style="{StaticResource PrimaryButton}" Click="OnInputLinkClick" />
+    <Button Content="本次忽略" Height="40" Margin="0,4" Style="{StaticResource SecondaryButton}" Click="OnSkipOnceClick" />
+    <Button Content="永久忽略检测" Height="40" Margin="0,4" Style="{StaticResource SecondaryButton}" Click="OnSkipAlwaysClick" />
+    <Button Content="取消" Height="40" Margin="0,16,0,0" Style="{StaticResource SecondaryButton}" Click="OnCancelClick" />
+  </StackPanel>
+</Window>

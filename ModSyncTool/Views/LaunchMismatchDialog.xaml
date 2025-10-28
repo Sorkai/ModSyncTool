@@ -1,0 +1,28 @@
+<Window x:Class="ModSyncTool.Views.LaunchMismatchDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="启动项警告"
+  Background="{DynamicResource WindowBackgroundBrush}"
+        Height="220"
+        Width="440"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        WindowStyle="ToolWindow">
+        <Grid Margin="16">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+                <TextBlock Text="警告：Mod 包推荐使用新的启动程序，但在本地未找到。" TextWrapping="Wrap" Style="{StaticResource TitleText}" />
+    <TextBlock Grid.Row="1"
+               Margin="0,12,0,12"
+               TextWrapping="Wrap"
+               Text="{Binding Message}" />
+    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+      <Button Content="知道了 (本次忽略)" Width="170" Margin="0,0,8,0" Style="{StaticResource SecondaryButton}" Click="OnIgnoreOnceClick" />
+      <Button Content="永久忽略此版本提示" Width="180" Margin="0,0,8,0" Style="{StaticResource SecondaryButton}" Click="OnIgnoreForeverClick" />
+      <Button Content="取消" Width="110" Style="{StaticResource PrimaryButton}" Click="OnCancelClick" />
+    </StackPanel>
+  </Grid>
+</Window>

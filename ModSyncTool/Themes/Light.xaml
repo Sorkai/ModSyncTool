@@ -1,0 +1,12 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <!-- 覆盖/细化为浅色主题的画刷定义 -->
+  <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#FFFFFFFF" />
+  <SolidColorBrush x:Key="PanelBackgroundBrush" Color="#FFFFFFFF" />
+  <SolidColorBrush x:Key="TextPrimaryBrush" Color="#111827" />
+
+  <!-- 窗口默认背景 -->
+  <Style TargetType="Window">
+    <Setter Property="Background" Value="{DynamicResource WindowBackgroundBrush}" />
+  </Style>
+</ResourceDictionary>

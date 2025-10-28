@@ -1,0 +1,13 @@
+bin/
+obj/
+*.user
+*.suo
+*.userprefs
+*.log
+logs/
+.vs/
+*.tmp
+*.cache
+
+.fake
+publish/
