@@ -3,111 +3,172 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:models="clr-namespace:ModSyncTool.Models"
         Title="管理 (发布工具)"
-  Background="{DynamicResource WindowBackgroundBrush}"
+        Background="{DynamicResource WindowBackgroundBrush}"
         Height="600"
         Width="860"
         WindowStartupLocation="CenterOwner">
   <Window.Resources>
-    <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-    <HierarchicalDataTemplate DataType="{x:Type models:PublishFileItem}" ItemsSource="{Binding Children}">
+    <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    <HierarchicalDataTemplate DataType="{x:Type models:PublishFileItem}"
+                              ItemsSource="{Binding Children}">
       <StackPanel Orientation="Horizontal">
-        <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" />
-        <TextBlock Text="{Binding Name}" Margin="6,0,0,0" />
+        <CheckBox IsChecked="{Binding SelectionState, Mode=TwoWay}">
+          <CheckBox.Style>
+            <Style TargetType="CheckBox">
+              <!-- 叶子节点用二态，目录节点用三态 -->
+              <Setter Property="IsThreeState"
+                      Value="False"/>
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding IsDirectory}"
+                             Value="True">
+                  <Setter Property="IsThreeState"
+                          Value="True"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </CheckBox.Style>
+        </CheckBox>
+        <TextBlock Text="{Binding Name}"
+                   Margin="6,0,0,0"/>
       </StackPanel>
     </HierarchicalDataTemplate>
   </Window.Resources>
   <Grid Margin="12">
     <Grid.RowDefinitions>
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="*" />
-      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <StackPanel Orientation="Vertical" Grid.Row="0" Margin="0,0,0,12">
-      <TextBlock Text="包信息" FontWeight="SemiBold" />
-      <UniformGrid Columns="2" Margin="0,6,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+    <StackPanel Orientation="Vertical"
+                Grid.Row="0"
+                Margin="0,0,0,12">
+      <TextBlock Text="包信息"
+                 FontWeight="SemiBold"/>
+      <UniformGrid Columns="2"
+                   Margin="0,6,0,0"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Top">
         <StackPanel Margin="0,0,12,0">
-          <TextBlock Text="信息" />
-          <TextBox Text="{Binding Info, UpdateSourceTrigger=PropertyChanged}" />
+          <TextBlock Text="信息"/>
+          <TextBox Text="{Binding Info, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
         <StackPanel>
-          <TextBlock Text="版本" />
-          <TextBox Text="{Binding Version, UpdateSourceTrigger=PropertyChanged}" />
+          <TextBlock Text="版本"/>
+          <TextBox Text="{Binding Version, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
         <StackPanel Margin="0,8,12,0">
-          <TextBlock Text="基础下载地址" />
-          <TextBox Text="{Binding BaseDownloadUrl, UpdateSourceTrigger=PropertyChanged}" />
+          <TextBlock Text="基础下载地址"/>
+          <TextBox Text="{Binding BaseDownloadUrl, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
         <StackPanel Margin="0,8,0,0">
-          <TextBlock Text="启动程序" />
-          <TextBox Text="{Binding LaunchExecutable, UpdateSourceTrigger=PropertyChanged}" />
+          <TextBlock Text="启动程序"/>
+          <TextBox Text="{Binding LaunchExecutable, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
       </UniformGrid>
       <CheckBox Content="下载路径附加版本号"
                 Margin="0,8,0,0"
-                IsChecked="{Binding AppendVersionToPath}" />
+                IsChecked="{Binding AppendVersionToPath}"/>
     </StackPanel>
-    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,12">
-      <Button Content="选择文件夹" Width="140" Click="OnSelectFolderClick" Style="{StaticResource SecondaryButton}" />
+    <StackPanel Grid.Row="1"
+                Orientation="Horizontal"
+                Margin="0,0,0,12">
+      <Button Content="选择文件夹"
+              Width="140"
+              Click="OnSelectFolderClick"
+              Style="{StaticResource SecondaryButton}"/>
       <CheckBox Content="启用多文件并发下载"
                 Margin="18,0,0,0"
                 VerticalAlignment="Center"
-                IsChecked="{Binding EnableMultiFileDownload}" />
-      <StackPanel Orientation="Horizontal" Margin="18,0,0,0" VerticalAlignment="Center">
-        <TextBlock Text="最大并发" VerticalAlignment="Center" Margin="0,0,6,0" />
-        <TextBox Text="{Binding MaxConcurrentFiles, UpdateSourceTrigger=PropertyChanged}" Width="60" />
+                IsChecked="{Binding EnableMultiFileDownload}"/>
+      <StackPanel Orientation="Horizontal"
+                  Margin="18,0,0,0"
+                  VerticalAlignment="Center">
+        <TextBlock Text="最大并发"
+                   VerticalAlignment="Center"
+                   Margin="0,0,6,0"/>
+        <TextBox Text="{Binding MaxConcurrentFiles, UpdateSourceTrigger=PropertyChanged}"
+                 Width="60"/>
       </StackPanel>
       <CheckBox Content="启用单文件多线程下载"
                 Margin="18,0,0,0"
                 VerticalAlignment="Center"
-                IsChecked="{Binding EnableMultiThreadDownload}" />
-      <StackPanel Orientation="Horizontal" Margin="18,0,0,0" VerticalAlignment="Center">
-        <TextBlock Text="线程数" VerticalAlignment="Center" Margin="0,0,6,0" />
-        <TextBox Text="{Binding ThreadsPerFile, UpdateSourceTrigger=PropertyChanged}" Width="60" />
+                IsChecked="{Binding EnableMultiThreadDownload}"/>
+      <StackPanel Orientation="Horizontal"
+                  Margin="18,0,0,0"
+                  VerticalAlignment="Center">
+        <TextBlock Text="线程数"
+                   VerticalAlignment="Center"
+                   Margin="0,0,6,0"/>
+        <TextBox Text="{Binding ThreadsPerFile, UpdateSourceTrigger=PropertyChanged}"
+                 Width="60"/>
       </StackPanel>
     </StackPanel>
     <Grid Grid.Row="2">
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="2*" />
-        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="2*"/>
+        <ColumnDefinition Width="*"/>
       </Grid.ColumnDefinitions>
-      <Border BorderBrush="{DynamicResource NeutralBorderBrush}" BorderThickness="1" Margin="0,0,12,0">
+      <Border BorderBrush="{DynamicResource NeutralBorderBrush}"
+              BorderThickness="1"
+              Margin="0,0,12,0">
         <Grid>
           <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
           </Grid.RowDefinitions>
-          <TextBlock Text="文件列表" FontWeight="SemiBold" Margin="8" />
+          <TextBlock Text="文件列表"
+                     FontWeight="SemiBold"
+                     Margin="8"/>
           <TreeView Grid.Row="1"
-                ItemsSource="{Binding RootItems}"
-                SelectedItemChanged="OnTreeViewSelectedItemChanged" />
+                    ItemsSource="{Binding RootItems}"
+                    SelectedItemChanged="OnTreeViewSelectedItemChanged"/>
         </Grid>
       </Border>
       <StackPanel Grid.Column="1">
-        <TextBlock Text="属性编辑" FontWeight="SemiBold" />
-        <TextBlock Text="Download Segment" Margin="0,12,0,0" />
-        <TextBox Text="{Binding EditDownloadSegment, UpdateSourceTrigger=PropertyChanged}" />
-        <TextBlock Text="Override Base Url" Margin="0,12,0,0" />
-        <TextBox Text="{Binding EditOverrideBaseUrl, UpdateSourceTrigger=PropertyChanged}" />
-        <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
-          <Button Content="应用到当前" Width="110" Command="{Binding ApplyToCurrentCommand}" Style="{StaticResource SecondaryButton}" />
-          <Button Content="应用到已选文件" Width="140" Margin="12,0,0,0" Command="{Binding ApplyToSelectedCommand}" Style="{StaticResource SecondaryButton}" />
+        <TextBlock Text="属性编辑"
+                   FontWeight="SemiBold"/>
+        <TextBlock Text="Download Segment"
+                   Margin="0,12,0,0"/>
+        <TextBox Text="{Binding EditDownloadSegment, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBlock Text="Override Base Url"
+                   Margin="0,12,0,0"/>
+        <TextBox Text="{Binding EditOverrideBaseUrl, UpdateSourceTrigger=PropertyChanged}"/>
+        <StackPanel Orientation="Horizontal"
+                    Margin="0,16,0,0">
+          <Button Content="应用到当前"
+                  Width="110"
+                  Command="{Binding ApplyToCurrentCommand}"
+                  Style="{StaticResource SecondaryButton}"/>
+          <Button Content="应用到已选文件"
+                  Width="140"
+                  Margin="12,0,0,0"
+                  Command="{Binding ApplyToSelectedCommand}"
+                  Style="{StaticResource SecondaryButton}"/>
         </StackPanel>
-        <TextBlock Text="{Binding StatusMessage}" Margin="0,16,0,0" TextWrapping="Wrap" />
+        <TextBlock Text="{Binding StatusMessage}"
+                   Margin="0,16,0,0"
+                   TextWrapping="Wrap"/>
       </StackPanel>
     </Grid>
-    <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+    <StackPanel Grid.Row="3"
+                Orientation="Horizontal"
+                HorizontalAlignment="Right"
+                Margin="0,12,0,0">
       <ProgressBar Width="200"
                    Height="16"
                    Margin="0,0,12,0"
                    IsIndeterminate="True"
-                   Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibilityConverter}}" />
-            <Button Content="生成 Manifest"
+                   Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibilityConverter}}"/>
+      <Button Content="生成 Manifest"
               Width="140"
               Margin="0,0,8,0"
               Click="OnGenerateManifestClick"
-              Style="{StaticResource PrimaryButton}" />
-            <Button Content="关闭" Width="100" Click="OnCloseClick" Style="{StaticResource SecondaryButton}" />
+              Style="{StaticResource PrimaryButton}"/>
+      <Button Content="关闭"
+              Width="100"
+              Click="OnCloseClick"
+              Style="{StaticResource SecondaryButton}"/>
     </StackPanel>
   </Grid>
 </Window>

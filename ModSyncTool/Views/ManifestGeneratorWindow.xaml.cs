@@ -94,6 +94,8 @@ public partial class ManifestGeneratorWindow : Window
         Close();
     }
 
+    // 已移除事件拦截逻辑，复选框切换完全由 SelectionState 的 TwoWay 绑定与模型层逻辑驱动
+
     private sealed class Win32Window : Forms.IWin32Window
     {
         public Win32Window(nint handle)
